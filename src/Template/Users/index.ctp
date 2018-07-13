@@ -1,11 +1,13 @@
-<p>This is People table records.</p>
-<!-- <pre>
-  <!-- <?php print_r($data);?> -->
-<!-- </pre> -->
+<p>This is Users table records.</p>
 <table>
-  <thead><tr>
-    <th>id</th><th>name</th><th>mail</th><th>age</th>
-  </tr></thead>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>mail</th>
+      <th>age</th>
+    </tr>
+  </thead>
   <?php foreach ($data->toArray() as $obj): ?>
     <tr>
       <td><?=h($obj->id) ?></td>
@@ -15,6 +17,6 @@
       <td><?=h($obj->password)?></td>
       <td><?=h($obj->created)?></td>
       <td><?=h($obj->updated)?></td>
-</tr>
-<?php endforeach; ?>
+    </tr>
+  <?php endforeach; ?>
 </table>

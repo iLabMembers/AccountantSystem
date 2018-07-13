@@ -4,6 +4,6 @@ create table users (
   last_name varchar(10)  ,
   role enum('admin','teacher','doctor','master','bachelor'),
   password varchar(10),
-  created DATE,
-  updated DATE
+  created datetime DEFAULT NULL,
+  updated datetime DEFAULT NULL
 );
