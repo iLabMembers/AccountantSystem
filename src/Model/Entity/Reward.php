@@ -12,7 +12,5 @@ class Reward extends Entity{
     'created' => true,
     'updated' => true
   ];
-
-
 }
 ?>

@@ -6,8 +6,7 @@ class RewardsController extends AppController
   function index()
   {
     $data = $this->Rewards->find('all');
-    $this->set('data',$data);
+    $this->set('data', $data);
   }
 }
-
- ?>
+?>

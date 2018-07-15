@@ -10,6 +10,4 @@ class RewardsTable extends Table
     $this->setPrimaryKey('id');
   }
 }
-
-
- ?>
+?>
