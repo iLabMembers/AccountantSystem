@@ -13,6 +13,5 @@ class User extends Entity{
     'updated' => true
   ];
 
-  
 }
 ?>
