@@ -13,7 +13,7 @@
  */
 namespace App\View;
 
-use Cake\View\View;
+use BootstrapUI\View\UIView;
 
 /**
  * Application View
@@ -22,23 +22,23 @@ use Cake\View\View;
  *
  * @link https://book.cakephp.org/3.0/en/views.html#the-app-view
  */
-class AppView extends View
+class AppView extends UIView
 {
 
-    /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading helpers.
-     *
-     * e.g. `$this->loadHelper('Html');`
-     *
-     * @return void
-     */
-    public function initialize()
-    {
-    $this->loadHelper('Html', ['className' => 'BootstrapUI.Html']);
-    $this->loadHelper('Form', ['className' => 'BootstrapUI.Form']);
-    $this->loadHelper('Flash', ['className' => 'BootstrapUI.Flash']);
-    $this->loadHelper('Paginator', ['className' => 'BootstrapUI.Paginator']);
-    }
+	/**
+	 * Initialization hook method.
+	 *
+	 * Use this method to add common initialization code like loading helpers.
+	 *
+	 * e.g. `$this->loadHelper('Html');`
+	 *
+	 * @return void
+	 */
+	public function initialize()
+	{
+
+		parent::initialize();
+		$this->viewBuilder()->setLayout('mil_default');
+
+	}
 }

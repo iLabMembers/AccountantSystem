@@ -1,5 +1,7 @@
+<?php $this->extend('../Layout/TwitterBootstrap/dashboard'); ?>
+
 <p>This is Users table records.</p>
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>id</th>
