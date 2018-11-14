@@ -42,9 +42,18 @@ class ItemsController extends AppController
 
 
   function remove(){
+    $id = $this->request->query['id'];
+    $entity = $this->Items->get($id);
+    $this->$set('entity',$entity);
   }
 
   function destroy(){
+    if($this->request->is('post')){
+      $data = $this->request->data['Items'];
+      $entity = $this->Items->get($data['id']);
+      $this->Items->delete($entity);
+    }
+    return $this->redirect(['action'=>'index']);
   }
 
 

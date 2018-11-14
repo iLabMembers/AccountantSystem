@@ -5,5 +5,5 @@ create table items(
   price int,
   description text,
   created datetime DEFAULT NULL,
-  updated datetime DEFAULT NULL
+  modified datetime DEFAULT NULL
 );

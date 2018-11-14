@@ -7,13 +7,10 @@ $this->Html->script('bootstrap/bootstrap.js');
 
 <?php
 echo $this->Form->create($entity,['type'=>'post','url'=>['controller'=>'Items','action'=>'update']]);
-echo $this->Form->input('Items.id');
 echo $this->Form->input('Items.name');
 echo $this->Form->input('Items.unit');
 echo $this->Form->input('Items.price');
 echo $this->Form->input('Items.description');
-echo $this->Form->input('Items.created');
-echo $this->Form->input('Items.updated');
 echo $this->Form->submit('送信');
 echo $this->Form->end();
 ?>
