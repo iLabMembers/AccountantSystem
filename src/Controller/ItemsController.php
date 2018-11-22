@@ -3,8 +3,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 class ItemsController extends AppController
 {
-  function index()
-  {
+  function itemregester(){
     $this->viewBuilder()->autoLayout(true);
     $data = $this->Items->find('all');
     $this->set('data',$data);
@@ -12,6 +11,7 @@ class ItemsController extends AppController
 
   function add(){
     $this->viewBuilder()->autoLayout(true);
+    $entity = $this->Items->newEntity();
     $this->set('entity',$entity);
   }
 
@@ -21,10 +21,16 @@ class ItemsController extends AppController
       $entity = $this->Items->newEntity($data);
       $this->Items->save($entity);
     }
-    return $this->redirect(['action'=>'index']);
+    return $this->redirect(['action'=>'itemregester']);
+  }
+
+  function createFromCsv(){
+
+    return $this->redirect(['action'=>'itemregester']);
   }
 
   function edit(){
+    $this->viewBuilder()->autoLayout(true);
     $id=$this->request->query['id'];
     $entity = $this->Items->get($id);
     $this->set('entity',$entity);
@@ -37,14 +43,14 @@ class ItemsController extends AppController
       $this->Items->PatchEntity($entity,$data);
       $this->Items->save($entity);
     }
-    return $this->redirect(['action'=>'index']);
+    return $this->redirect(['action'=>'itemregester']);
   }
 
-
   function remove(){
+    $this->viewBuilder()->autoLayout(true);
     $id = $this->request->query['id'];
     $entity = $this->Items->get($id);
-    $this->$set('entity',$entity);
+    $this->set('entity',$entity);
   }
 
   function destroy(){
@@ -53,11 +59,7 @@ class ItemsController extends AppController
       $entity = $this->Items->get($data['id']);
       $this->Items->delete($entity);
     }
-    return $this->redirect(['action'=>'index']);
+    return $this->redirect(['action'=>'itemregester']);
   }
-
-
-
-
 }
 ?>

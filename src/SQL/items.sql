@@ -1,5 +1,5 @@
 create table items(
-  id varchar(10),
+  id INT PRIMARY KEY AUTO_INCREMENT,
   name varchar(30),
   unit varchar(10),
   price int,

@@ -11,7 +11,7 @@ class Item extends Entity
     'price' => true,
     'description' => true,
     'created' => true,
-    'updated' => true
+    'modified' => true
   ];
 }
 ?>
