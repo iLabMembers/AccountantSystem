@@ -3,10 +3,17 @@ namespace App\Controller;
 use App\Controller\AppController;
 class ItemsController extends AppController
 {
-  function itemregester(){
+  function itemregister($id = null){
     $this->viewBuilder()->autoLayout(true);
     $data = $this->Items->find('all');
     $this->set('data',$data);
+    if ($id == 1) {
+      $this->Flash->success('データの追加に成功しました。');
+    }elseif ($id == 2) {
+      $this->Flash->success('データの編集に成功しました。');
+    }elseif ($id == 3) {
+      $this->Flash->success('データの削除に成功しました。');
+    }
   }
 
   function add(){
@@ -21,12 +28,12 @@ class ItemsController extends AppController
       $entity = $this->Items->newEntity($data);
       $this->Items->save($entity);
     }
-    return $this->redirect(['action'=>'itemregester']);
+    return $this->redirect(['action'=>'itemregister',1]);
   }
 
   function createFromCsv(){
 
-    return $this->redirect(['action'=>'itemregester']);
+    return $this->redirect(['action'=>'itemregister',1]);
   }
 
   function edit(){
@@ -43,7 +50,7 @@ class ItemsController extends AppController
       $this->Items->PatchEntity($entity,$data);
       $this->Items->save($entity);
     }
-    return $this->redirect(['action'=>'itemregester']);
+    return $this->redirect(['action'=>'itemregister',2]);
   }
 
   function remove(){
@@ -59,7 +66,8 @@ class ItemsController extends AppController
       $entity = $this->Items->get($data['id']);
       $this->Items->delete($entity);
     }
-    return $this->redirect(['action'=>'itemregester']);
+    return $this->redirect(['action'=>'itemregister',3]);
   }
+
 }
 ?>
