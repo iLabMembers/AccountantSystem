@@ -10,8 +10,9 @@ class Item extends Entity
     'unit' => true,
     'price' => true,
     'description' => true,
+    'imagePath' => true,
     'created' => true,
-    'modified' => true
+    'modified' => true,
   ];
 }
 ?>

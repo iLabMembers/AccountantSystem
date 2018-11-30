@@ -1,8 +1,16 @@
 <?php
 namespace App\Controller;
 use App\Controller\AppController;
+
+
 class ItemsController extends AppController
 {
+
+  public function initialize(){
+    parent::initialize();
+    $this->loadComponent('FileUpLoader');
+  }
+
   function itemregister($id = null){
     $this->viewBuilder()->autoLayout(true);
     $data = $this->Items->find('all');
@@ -14,6 +22,7 @@ class ItemsController extends AppController
     }elseif ($id == 3) {
       $this->Flash->success('データの削除に成功しました。');
     }
+
   }
 
   function add(){
@@ -23,12 +32,22 @@ class ItemsController extends AppController
   }
 
   function create(){
+    //保存するディレクトリを指定
+    $dir = realpath(WWW_ROOT . '/img');
+    $limitFileSize = 1024*1024;
     if($this->request->is('post')){
-      $data = $this->request->data['Items'];
-      $entity = $this->Items->newEntity($data);
+      $data = $this->request->data;
+      $entity = $this->Items->newEntity($data['Items']);
       $this->Items->save($entity);
+      $this->log($data,LOG_DEBUG);
+      try{
+          $image = $data['image_jpeg'];
+          $this->FileUpLoader->fileUpload($image,$entity->id,$dir,$limitFileSize);
+      }catch(RuntimeException $e){
+        return $this->redirect(['action'=>'itemregister',4]);
+      }
     }
-    return $this->redirect(['action'=>'itemregister',1]);
+     return $this->redirect(['action'=>'itemregister',1]);
   }
 
   function createFromCsv(){

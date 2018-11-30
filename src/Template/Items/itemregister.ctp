@@ -1,14 +1,11 @@
 <html>
 <head>
-  <?php $this->Html->css('bootstrap/bootstrap.css');
-  $this->Html->script('bootstrap/bootstrap.js');
-  ?>
   <?php $this->extend('../Layout/TwitterBootstrap/dashboard'); ?>
 </head>
 
 <?php
-    echo $this->form->create(null,['type'=>'post','url'=>['controller'=>'Items','action'=>'add','class'=>'button']]);
-    echo $this->form->button('新しい商品を登録する');
+    echo $this->form->create(null,['type'=>'post','url'=>['controller'=>'Items','action'=>'add']]);
+    echo $this->form->button('新しい商品を登録する',['class'=>'btn btn-default']);
     echo $this->form->end();
   ?>
 <table class="table">

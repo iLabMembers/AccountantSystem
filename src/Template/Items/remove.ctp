@@ -1,7 +1,4 @@
 <head>
-  <?php $this->Html->css('bootstrap/bootstrap.css');
-  $this->Html->script('bootstrap/bootstrap.js');
-  ?>
   <?php $this->extend('../Layout/TwitterBootstrap/dashboard'); ?>
 </head>
 <p>下記のレコードを削除しますか？</p>
