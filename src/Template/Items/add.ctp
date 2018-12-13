@@ -16,7 +16,7 @@ echo $this->Form->end();
 
 ?>
 <?php
-  echo $this->Form->create('Uploads',['type'=>'file','url'=>['controller'=>'Items','action'=>'create','class'=>'button'],'enctype'=>"multipart/form-data"]);
+  echo $this->Form->create('Uploads',['type'=>'post','url'=>['controller'=>'Items','action'=>'createFromCsv','class'=>'button'],'enctype'=>"multipart/form-data"]);
   echo $this->Form->input('CSV',['type'=>'file','label'=>'csvファイル','name'=>'data.csv']);
   echo $this->Form->button('csvファイルを読み込み');
   echo $this->Form->end();

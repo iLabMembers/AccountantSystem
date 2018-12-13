@@ -32,8 +32,7 @@ class ItemsController extends AppController
   }
 
   function create(){
-    //保存するディレクトリを指定
-    $dir = realpath(WWW_ROOT . '/img');
+    $dir = realpath(WWW_ROOT . '/img/items');
     $limitFileSize = 1024*1024;
     if($this->request->is('post')){
       $data = $this->request->data;
@@ -51,7 +50,14 @@ class ItemsController extends AppController
   }
 
   function createFromCsv(){
-
+    $data = $this->request->data;
+    try{
+      $this->log($data,LOG_DEBUG);
+      $csv = $data['data_csv'];
+      $this->FileUpLoader->fileUpload($csv);
+    }catch(RuntimeException $e){
+      return $this->redirect(['action'=>'itemregister',4]);
+    }
     return $this->redirect(['action'=>'itemregister',1]);
   }
 
@@ -63,11 +69,19 @@ class ItemsController extends AppController
   }
 
   function update(){
+    $dir = realpath(WWW_ROOT . '/img/items');
+    $limitFileSize = 1024*1024;
     if($this->request->is('post')){
       $data = $this->request->data['Items'];
       $entity = $this->Items->get($data['id']);
       $this->Items->PatchEntity($entity,$data);
       $this->Items->save($entity);
+      try{
+          $image = $data['image_jpeg'];
+          $this->FileUpLoader->fileUpload($image,$entity->id,$dir,$limitFileSize);
+      }catch(RuntimeException $e){
+        return $this->redirect(['action'=>'itemregister',2]);
+      }
     }
     return $this->redirect(['action'=>'itemregister',2]);
   }
