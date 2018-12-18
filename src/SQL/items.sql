@@ -1,5 +1,6 @@
 create table items(
   id INT PRIMARY KEY AUTO_INCREMENT,
+  category int,
   name varchar(30),
   unit varchar(10),
   price int,

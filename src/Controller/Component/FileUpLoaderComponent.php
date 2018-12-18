@@ -4,9 +4,11 @@ use Cake\Controller\Component;
 use Cake\Filesystem\Folder;
 use Cake\Filesystem\File;
 use RuntimeException;
+use SplFileObject;
 // Formのcreateの際に['enctype'=>'multipart/form-data'] を引数に加えること。
 class FileUpLoaderComponent extends Component{
   public function fileUpload($file = null,$name = 'temp',$dir=WWW_ROOT,$limitFileSize=1024*1024){
+    $this->log($file,LOG_DEBUG);
     $result = null;
     try{
       if($dir){
@@ -33,28 +35,33 @@ class FileUpLoaderComponent extends Component{
            break;
 	    }
 	    $fileInfo = new File($file['tmp_name']);
-      $this->log($fileInfo->mime(),LOG_DEBUG);
+
   // ファイルタイプのチェックし、拡張子を取得
-      if (false === $ext = array_search($fileInfo->mime(),
-                                             ['jpg' => 'image/jpeg',
-                                              'png' => 'image/png',
-                                              'gif' => 'image/gif',
-                                              'csv' => 'data/csv'  ]
-                                              , true)){
-        $this->log($ext,LOG_DEBUG);
-        throw new RuntimeException('拡張子が適切ではありません');
-      }
+      // if (false === $ext = array_search($fileInfo->mime(),
+                                             // ['jpg' => 'image/jpeg',
+                                             //  'png' => 'image/png',
+                                             //  'gif' => 'image/gif',
+                                             //  'csv' => 'data/csv'  ]
+                                             //  , true)){
+
+      //   $this->log($ext,LOG_DEBUG);
+      //   throw new RuntimeException('拡張子が適切ではありません');
+      // }
+      $ext = strrchr($file['name'], '.');
       $this->log($ext,LOG_DEBUG);
-          if($ext == "csv"){
+          if($ext == ".csv"){
             $csvData = new SplFileObject($file["tmp_name"]);
-            $csvData->setFlags(SqlFileObject::READ_CSV);
+            $csvData->setFlags(SplFileObject::READ_CSV);
+            $result = array() ;
             foreach ($csvData as $line) {
-              $result[] = $line;
+              if (count($line)>1) {
+                $result[] = $line;
+              }
             }
             $this->log($result,LOG_DEBUG);
-          }else{
+          }else if($ext == ".jpg" || $ext == ".gif" || $ext == ".png"){
            // ファイル名の生成
-            $result = $name . "." . $ext;
+            $result = $name . $ext;
            // $uploadFile = sha1_file($file["tmp_name"]) . "." . $ext;
 
            // ファイルの移動

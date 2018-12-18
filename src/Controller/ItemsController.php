@@ -38,7 +38,7 @@ class ItemsController extends AppController
       $data = $this->request->data;
       $entity = $this->Items->newEntity($data['Items']);
       $this->Items->save($entity);
-      $this->log($data,LOG_DEBUG);
+      $this->log($data['Items'],LOG_DEBUG);
       try{
           $image = $data['image_jpeg'];
           $this->FileUpLoader->fileUpload($image,$entity->id,$dir,$limitFileSize);
@@ -54,7 +54,20 @@ class ItemsController extends AppController
     try{
       $this->log($data,LOG_DEBUG);
       $csv = $data['data_csv'];
-      $this->FileUpLoader->fileUpload($csv);
+      $csvData = $this->FileUpLoader->fileUpload($csv);
+      // $this->log($csvData);
+      for ($i=1; $i < count($csvData) ; $i++) {
+        $this->log($csvData[$i]);
+        $item = array(
+          "name" => $csvData[$i][0],
+          "category" => $csvData[$i][1],
+          "unit" => $csvData[$i][2],
+          "price" => $csvData[$i][3],
+          "description" => $csvData[$i][4]
+        );
+        $entity = $this->Items->newEntity($item);
+        $this->Items->save($entity);
+      }
     }catch(RuntimeException $e){
       return $this->redirect(['action'=>'itemregister',4]);
     }
@@ -72,12 +85,13 @@ class ItemsController extends AppController
     $dir = realpath(WWW_ROOT . '/img/items');
     $limitFileSize = 1024*1024;
     if($this->request->is('post')){
-      $data = $this->request->data['Items'];
-      $entity = $this->Items->get($data['id']);
-      $this->Items->PatchEntity($entity,$data);
+      $data = $this->request->data;
+      $entity = $this->Items->get($data['Items']['id']);
+      $this->Items->PatchEntity($entity,$data['Items']);
       $this->Items->save($entity);
       try{
           $image = $data['image_jpeg'];
+          $this->log($data,LOG_DEBUG);
           $this->FileUpLoader->fileUpload($image,$entity->id,$dir,$limitFileSize);
       }catch(RuntimeException $e){
         return $this->redirect(['action'=>'itemregister',2]);

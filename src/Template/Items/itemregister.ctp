@@ -12,6 +12,7 @@
   <thead>
     <tr>
       <th>id</th>
+      <th>category</th>
       <th>name </th>
       <th>unit </th>
       <th>price </th>
@@ -23,6 +24,7 @@
 <?php foreach($data->toArray() as $obj): ?>
   <tr>
     <td><?=h($obj->id) ?></td>
+    <td><?=h($obj->category) ?></td>
     <td><?=h($obj->name) ?></td>
     <td><?=h($obj->unit) ?></td>
     <td><?=h($obj->price) ?></td>

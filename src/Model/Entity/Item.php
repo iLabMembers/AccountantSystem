@@ -6,6 +6,7 @@ class Item extends Entity
   protected $_accessible =
   [
     'id' => true,
+    'category'=>true,
     'name' => true,
     'unit' => true,
     'price' => true,
