@@ -10,7 +10,7 @@
 <div>created: <?=$entity['created'] ?></div>
 <div>modified: <?=$entity['modified'] ?></div>
 <hr>
-<?=$this->Form->create($entity,['type'=>'post' , 'url'=>['controller'=>'Items','action'=>'destroy']]) ?>
+<?=$this->Form->create($entity,['type'=>'post', 'url'=>['controller'=>'Items','action'=>'destroy']]) ?>
 <?=$this->Form->hidden('Items.id') ?>
 <div><?=$this->Form->submit('削除する') ?></div>
 <?=$this->Form->end() ?>
