@@ -7,8 +7,8 @@ use RuntimeException;
 use SplFileObject;
 // Formのcreateの際に['enctype'=>'multipart/form-data'] を引数に加えること。
 class FileUpLoaderComponent extends Component{
-  public function fileUpload($file = null,$name = 'temp',$dir=WWW_ROOT,$limitFileSize=1024*1024){
-    $this->log($file,LOG_DEBUG);
+  public function fileUpload($file = null , $name = 'temp' , $dir=WWW_ROOT , $limitFileSize = 1024*1024){
+    $this->log($file , LOG_DEBUG);
     $result = null;
     try{
       if($dir){
@@ -19,20 +19,20 @@ class FileUpLoaderComponent extends Component{
 	        throw new RuntimeException('ディレクトリの指定がありません');
        }
 	     switch($file['error']){
-		       case 0:
-		         break;
+		case 0:
+			break;
 	        case UPLOAD_ERR_OK:
-		         break;
+		        break;
 	        case UPLOAD_ERR_NO_FILE :
-            throw new RuntimeException('ファイルがありません');
+            		throw new RuntimeException('ファイルがありません');
         		break;
-		      case UPLOAD_ERR_INI_SIZE:
-		      case UPLOAD_ERR_FORM_SIZE:
-	         throw new RuntimeException('ファイルサイズ超過');
-			     break;
-		      default:
-	         throw new RuntimeException('未知のエラー');
-           break;
+		case UPLOAD_ERR_INI_SIZE:
+		case UPLOAD_ERR_FORM_SIZE:
+	        	throw new RuntimeException('ファイルサイズ超過');
+			break;
+		default:
+	        	throw new RuntimeException('未知のエラー');
+           		break;
 	    }
 	    $fileInfo = new File($file['tmp_name']);
 
@@ -47,7 +47,7 @@ class FileUpLoaderComponent extends Component{
       //   $this->log($ext,LOG_DEBUG);
       //   throw new RuntimeException('拡張子が適切ではありません');
       // }
-      $ext = strrchr($file['name'], '.');
+      $ext = strrchr($file['name'] , '.');
       $this->log($ext,LOG_DEBUG);
           if($ext == ".csv"){
             $csvData = new SplFileObject($file["tmp_name"]);
