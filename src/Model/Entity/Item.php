@@ -11,7 +11,7 @@ class Item extends Entity
     'unit' => true,
     'price' => true,
     'description' => true,
-    'imagePath' => true,
+    'path' => true,
     'created' => true,
     'modified' => true,
   ];

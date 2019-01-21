@@ -32,21 +32,33 @@ class ItemsController extends AppController
   }
 
   function create(){
-    $dir = realpath(WWW_ROOT . '/img/items');
+    $dir = realpath(WWW_ROOT.'/img/items');
     $limitFileSize = 1024*1024;
     if ($this->request->is('post')) {
       $data = $this->request->data;
-      $entity = $this->Items->newEntity($data['Items']);
-      $this->Items->save($entity);
-      $this->log($data['Items'], LOG_DEBUG);
+      $entityData = $data['Items'];
+      $nextId = 1;
+      try{
+        $preEntity = $result=$this->Items
+                  ->find('all',['fields'=>'id'])
+                  ->last()->id;
+        $nextId = (string)(int)$preEntity + 1;
+      }catch(RuntimeException $e){
+
+      }
+      $this->log(gettype($preEntity),LOG_DEBUG);
       try{
         $image = $data['image_jpeg'];
-        $this->FileUpLoader->fileUpload($image, $entity->id, $dir, $limitFileSize);
+        $fileName = $this->FileUpLoader->fileUpload($image, $nextId, $dir, $limitFileSize);
+        $path = 'items/'.$fileName;
+        $entityData = $entityData + array('path' => $path);
       }catch(RuntimeException $e){
-        return $this->redirect(['action'=>'itemregister',4]);
+        return $this->redirect(['action'=>'itemregister', 4]);
       }
+      $entity = $this->Items->newEntity($entityData);
+      $this->Items->save($entity);
     }
-    return $this->redirect(['action'=>'itemregister',1]);
+    return $this->redirect(['action'=>'itemregister', 1]);
   }
 
   function createFromCsv(){
@@ -69,9 +81,9 @@ class ItemsController extends AppController
         $this->Items->save($entity);
       }
     }catch(RuntimeException $e){
-      return $this->redirect(['action'=>'itemregister',4]);
+      return $this->redirect(['action'=>'itemregister', 4]);
     }
-    return $this->redirect(['action'=>'itemregister',1]);
+    return $this->redirect(['action'=>'itemregister', 1]);
   }
 
   function edit(){
@@ -82,29 +94,32 @@ class ItemsController extends AppController
   }
 
   function update(){
-    $dir = realpath(WWW_ROOT . '/img/items');
+    $dir = realpath(WWW_ROOT.DS.'img'.DS.'items');
     $limitFileSize = 1024*1024;
     if($this->request->is('post')){
       $data = $this->request->data;
+      $entityData = $data['Items'];
       $entity = $this->Items->get($data['Items']['id']);
-      $this->Items->PatchEntity($entity, $data['Items']);
-      $this->Items->save($entity);
       try{
         $image = $data['image_jpeg'];
-        $this->log($data,LOG_DEBUG);
-        $this->FileUpLoader->fileUpload($image, $entity->id, $dir, $limitFileSize);
+        $this->log($data, LOG_DEBUG);
+        $fileName = $this->FileUpLoader->fileUpload($image, $entity->id, $dir, $limitFileSize);
+        $path = 'items/'.$fileName;
+        $entityData =  $entityData + array('path' => $path);
       }catch(RuntimeException $e){
-        return $this->redirect(['action'=>'itemregister',2]);
+        return $this->redirect(['action'=>'itemregister', 2]);
       }
+      $this->Items->PatchEntity($entity, $entityData);
+      $this->Items->save($entity);
     }
-    return $this->redirect(['action'=>'itemregister',2]);
+    return $this->redirect(['action'=>'itemregister', 2]);
   }
 
   function remove(){
     $this->viewBuilder()->autoLayout(true);
     $id = $this->request->query['id'];
     $entity = $this->Items->get($id);
-    $this->set('entity',$entity);
+    $this->set('entity', $entity);
   }
 
   function destroy(){
@@ -113,7 +128,7 @@ class ItemsController extends AppController
       $entity = $this->Items->get($data['id']);
       $this->Items->delete($entity);
     }
-    return $this->redirect(['action'=>'itemregister',3]);
+    return $this->redirect(['action'=>'itemregister', 3]);
   }
 
 }

@@ -5,6 +5,7 @@ create table items(
   unit varchar(10),
   price int,
   description text,
+  path text,
   created datetime DEFAULT NULL,
   modified datetime DEFAULT NULL
 );

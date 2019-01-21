@@ -24,8 +24,7 @@ class FileUpLoaderComponent extends Component{
         case UPLOAD_ERR_OK:
         break;
         case UPLOAD_ERR_NO_FILE :
-        throw new RuntimeException('ファイルがありません');
-        break;
+        return;
         case UPLOAD_ERR_INI_SIZE:
         case UPLOAD_ERR_FORM_SIZE:
         throw new RuntimeException('ファイルサイズ超過');
@@ -61,11 +60,12 @@ class FileUpLoaderComponent extends Component{
         $this->log($result,LOG_DEBUG);
       }else if($ext == ".jpg" || $ext == ".gif" || $ext == ".png"){
         // ファイル名の生成
-        $result = $name . $ext;
+        $result = $name . ".jpg";
+        $this->log($result, LOG_DEBUG);
         // $uploadFile = sha1_file($file["tmp_name"]) . "." . $ext;
 
         // ファイルの移動
-        if (!@move_uploaded_file($file["tmp_name"], $dir . "/" . $result)){
+        if (!@move_uploaded_file($file["tmp_name"], $dir . DS . $result)){
           throw new RuntimeException('Failed to move uploaded file.');
         }
       }

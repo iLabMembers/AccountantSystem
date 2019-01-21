@@ -11,6 +11,7 @@ echo $this->form->end();
 <table class="table">
   <thead>
     <tr>
+      <th>image</th>
       <th>id</th>
       <th>category</th>
       <th>name </th>
@@ -23,6 +24,7 @@ echo $this->form->end();
   </thead>
   <?php foreach($data->toArray() as $obj): ?>
     <tr>
+      <td><?php echo $this->Html->image($obj->path, ['width'=>'100%','height'=>'100%','alt'=>'sample image']); ?></td>
       <td><?=h($obj->id) ?></td>
       <td><?=h($obj->category) ?></td>
       <td><?=h($obj->name) ?></td>
